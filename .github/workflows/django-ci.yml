@@ -1,0 +1,14 @@
+name: Django CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+ pull_request:
+    branches: [main]
+
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+
+        steps:
+            -name: 

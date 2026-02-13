@@ -1,0 +1,30 @@
+version: '3.8'
+# Run all services
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: django_user
+      POSTGRES_PASSWORD: django_password
+      POSTGRES_DB: django_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Django web application
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/system-flow
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - DATABASE_URL=postgres://django_user:django_password@db:5432/django_db
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
